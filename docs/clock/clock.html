@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>STALP</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        html {
+            font-size: 200%;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        #clock {
+            margin-bottom: 1rem;
+            font-size: 150%;
+        }
+
+        #longitude {
+            margin-bottom: 1rem;
+        }
+
+        #stalp-reference table {
+            text-align: center;
+            border-collapse: collapse;
+            border: 2px solid #ffffff;
+        }
+
+        #stalp-reference th,
+        #stalp-reference td {
+            border: 1px solid #ffffff;
+            padding: 0.1rem 0.2rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>STALP Clock</h1>
+
+    <div id="clock">Please wait...</div>
+    
+    <label for="longitude">Longitude:</label>
+    <input id="longitude" type="number" step="any" value="-169">
+
+
+    <div id="stalp-reference">
+        <table>
+            <thead>
+                <tr>
+                    <th>STALP Value</th>
+                    <th>Fraction</th>
+                    <th>Duration</th>
+                    <th>Seconds</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1;00000</td>
+                    <td>1/12<sup>0</sup></td>
+                    <td>1 day</td>
+                    <td>86,400</td>
+                </tr>
+                <tr>
+                    <td>0;10000</td>
+                    <td>1/12<sup>1</sup></td>
+                    <td>2 hours</td>
+                    <td>7,200</td>
+                </tr>
+                <tr>
+                    <td>0;01000</td>
+                    <td>1/12<sup>2</sup></td>
+                    <td>10 minutes</td>
+                    <td>600</td>
+                </tr>
+                <tr>
+                    <td>0;00100</td>
+                    <td>1/12<sup>3</sup></td>
+                    <td>50 seconds</td>
+                    <td>50</td>
+                </tr>
+                <tr>
+                    <td>0;00010</td>
+                    <td>1/12<sup>4</sup></td>
+                    <td>4.1666 seconds</td>
+                    <td>4.1666</td>
+                </tr>
+                <tr>
+                    <td>0;00001</td>
+                    <td>1/12<sup>5</sup></td>
+                    <td>0.3472 seconds</td>
+                    <td>0.3472</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="clock.js"></script>
+</body>
+</html>
