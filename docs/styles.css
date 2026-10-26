@@ -3,3 +3,19 @@ body {
     background-color: #574180;
     color: #ffffff;
 }
+
+a:link {
+    color: #ffcc80;
+}
+
+a:visited {
+    color: #ffcc80;
+}
+
+a:hover {
+    color: #ffcc80;
+}
+
+a:active {
+    color: #ffcc80;
+}
