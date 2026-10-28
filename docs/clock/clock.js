@@ -7,20 +7,36 @@ const LONGITUDE_OBJ = document.getElementById("longitude");
 const LONGITUDE_WARN = document.getElementById("longitude-warn");
 const CLOCK_OBJ = document.getElementById("clock");
 
-function dozenalFrac(value, precision) {
-    // Convert the range [-inf, info] to the range [0.0, 1.0).
-    value = ((value % 1) + 1) % 1;
 
-    let result = [];
-    for (let i = 0; i < precision; i++) {
-        value *= 12;
-        const digit = Math.floor(value);
-        result.push(BASE_12_GLYPHS[digit]);
-        value -= digit;
+function dozenal(value, precision, leading_zero = true) {
+    const sign = value < 0 ? "-" : "";
+
+    let wholeParts = [];
+    let w = Math.floor(Math.abs(value));
+
+    if (leading_zero && w === 0) {
+        wholeParts.push(BASE_12_GLYPHS[0]);
     }
 
-    return POINT_GLYPH + result.join("");
+    while (w > 0) {
+        wholeParts.push(BASE_12_GLYPHS[w % 12]);
+        w = Math.floor(w / 12);
+    }
+
+    const fracParts = [];
+    let f = Math.abs(value) % 1;
+
+    for (let i = 0; i < precision; i++) {
+        f *= 12;
+        const digit = Math.floor(f);
+        fracParts.push(BASE_12_GLYPHS[digit]);
+        f -= digit;
+    }
+
+    return sign + wholeParts.reverse().join("") +
+        POINT_GLYPH + fracParts.join("");
 }
+
 
 function datelineLmst(utc) {
     return new Date(utc.getTime() + (DATELINE_MERIDIAN / 15) * 3600000);
@@ -74,11 +90,10 @@ function stalpTime(utc, longitude, precision) {
 
     const zone = zone_offset * STALP_TIME_ZONES;
 
-    const month = Math.floor(doy / 28) + 1;
-    const day = (doy % 28) + 1;
-    const dayFrac = dozenalFrac(dayFractional(adjusted), precision);
+    const month = dozenal(Math.floor(doy / 28), 0);
+    const dayFrac = dozenal((doy % 28) + dayFractional(adjusted), precision);
 
-    return [month, `${day}${dayFrac}`, zone];
+    return [month, dayFrac, zone];
 }
 
 function update() {
@@ -89,7 +104,8 @@ function update() {
     }
     const utc = new Date();
     const [month, day, zone] = stalpTime(utc, longitude, 5);
-    CLOCK_OBJ.innerHTML = `Month ${month}; Day ${day} Zone -;${Math.abs(zone)}`
+    const zone_str = dozenal(-zone/STALP_TIME_ZONES, 1, false);
+    CLOCK_OBJ.innerHTML = `${month} Months, ${day} Days, Zone -${zone_str}`
 }
 
 let manualLongitude = false;
