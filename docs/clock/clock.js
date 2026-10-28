@@ -4,6 +4,7 @@ const BASE_12_GLYPHS = "0123456789AB";
 const POINT_GLYPH = ";";
 
 const LONGITUDE_OBJ = document.getElementById("longitude");
+const LONGITUDE_WARN = document.getElementById("longitude-warn");
 const CLOCK_OBJ = document.getElementById("clock");
 
 function dozenalFrac(value, precision) {
@@ -95,6 +96,7 @@ let manualLongitude = false;
 
 LONGITUDE_OBJ.addEventListener("input", () => {
     manualLongitude = true;
+    LONGITUDE_WARN.style.display = "none";
 })
 
 update();
@@ -105,6 +107,7 @@ if ("geolocation" in navigator) {
         (position) => {
             if (manualLongitude) return;
             LONGITUDE_OBJ.value = position.coords.longitude;
+            LONGITUDE_WARN.style.display = "none";
             update();
         },
         (error) => {
